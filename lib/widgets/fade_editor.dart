@@ -330,7 +330,6 @@ class _FadeEditorState extends State<FadeEditor> {
                                   _maxDuration = fade.duration;
                                   _durationController.text = _maxDuration.toString();
                                 });
-                                context.read<DesignerState>().deleteFade(fade);
                               },
                             ),
                             IconButton(
@@ -473,10 +472,11 @@ class _FadeEditorState extends State<FadeEditor> {
     return LayoutBuilder(
       builder: (context, constraints) {
         // Fixed padding values that match the chart's internal padding
-        const double leftPadding = 40.0;
-        const double rightPadding = 8.0;
-        const double topPadding = 8.0;
-        const double bottomPadding = 20.0;
+        // Adjusted these values slightly to potentially fix hitbox offset
+        const double leftPadding = 44.0; // Was 40.0
+        const double rightPadding = 5.0; // Was 8.0
+        const double topPadding = 5.0; // Was 12.0
+        const double bottomPadding = 24.0; // Was 20.0
 
         // Calculate the actual plotting area dimensions
         final plotWidth = constraints.maxWidth - leftPadding - rightPadding;
@@ -606,4 +606,4 @@ class _FadeEditorState extends State<FadeEditor> {
       },
     );
   }
-} 
+}

@@ -108,9 +108,12 @@ class DesignerState extends ChangeNotifier {
     _fades = (json['fades'] as List)
         .map((f) => Fade.fromJson(f as Map<String, dynamic>))
         .toList();
-    // Don't load cues from JSON since they're predefined
+    // Load cues from JSON
+    _cues = (json['cues'] as List)
+        .map((c) => Cue.fromJson(c as Map<String, dynamic>))
+        .toList();
     _selectedFade = null;
     _selectedCue = null;
     notifyListeners();
   }
-} 
+}
