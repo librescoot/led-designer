@@ -193,6 +193,7 @@ class _FadeEditorState extends State<FadeEditor> {
   final List<FadePoint> _points = [];
   int? _selectedPointIndex;
   double _maxDuration = 1000.0;
+  Fade? _editingFade; // Track the fade being edited
 
   @override
   void initState() {
@@ -262,25 +263,38 @@ class _FadeEditorState extends State<FadeEditor> {
     });
   }
 
-  void _clearPoints() {
+  void _resetEditor() {
     setState(() {
+      _editingFade = null;
+      _nameController.clear();
       _points.clear();
       _selectedPointIndex = null;
+      _formKey.currentState?.reset(); // Reset validation state
     });
   }
 
   void _saveFade() {
     if (_formKey.currentState!.validate() && _points.isNotEmpty) {
-      final fade = Fade(
-        name: _nameController.text,
-        points: List.from(_points),
-      );
-      context.read<DesignerState>().addFade(fade);
-      _nameController.clear();
-      setState(() {
-        _points.clear();
-        _selectedPointIndex = null;
-      });
+      final state = context.read<DesignerState>();
+      if (_editingFade != null) {
+        // Update existing fade
+        final updatedFade = Fade(
+          name: _editingFade!.name, // Keep original internal name
+          displayName: _nameController.text, // Use new display name
+          points: List.from(_points),
+          sampleRate: _editingFade!.sampleRate, // Preserve sample rate
+        );
+        state.updateFade(updatedFade);
+      } else {
+        // Add new fade
+        final newFade = Fade(
+          name: _nameController.text, // Will become displayName in addFade
+          points: List.from(_points),
+          // Default sampleRate is handled in Fade constructor
+        );
+        state.addFade(newFade);
+      }
+      _resetEditor(); // Reset editor after save/update
     }
   }
 
@@ -324,6 +338,7 @@ class _FadeEditorState extends State<FadeEditor> {
                               icon: const Icon(Icons.edit),
                               onPressed: () {
                                 setState(() {
+                                  _editingFade = fade; // Track the fade being edited
                                   _nameController.text = fade.displayName;
                                   _points.clear();
                                   _points.addAll(fade.points);
@@ -449,7 +464,7 @@ class _FadeEditorState extends State<FadeEditor> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: _clearPoints,
+                        onPressed: _resetEditor,
                         child: const Text('Clear'),
                       ),
                       const SizedBox(width: 8),
