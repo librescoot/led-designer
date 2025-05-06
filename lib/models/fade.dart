@@ -84,8 +84,6 @@ class Fade {
     for (int i = 0; i < numSamples; i++) {
       double time = i * 1000 / sampleRate;
       double duty = interpolateDuty(time).clamp(minDuty, maxDuty);
-      // Scale duty by 0.75 for brightness reduction
-      duty *= 0.75;
       int value = (duty * pwmPeriod).round().clamp(0, pwmPeriod);
       samples[i] = value;
       

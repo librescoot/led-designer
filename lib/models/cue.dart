@@ -72,7 +72,7 @@ class CueAction {
         break;
       case CueActionType.duty:
         // Scale duty cycle by PWM period
-        double scaledDuty = (value as double) * 0.75;
+        double scaledDuty = (value as double);
         valueInt = (scaledDuty * Fade.pwmPeriod).round().clamp(0, Fade.pwmPeriod);
         break;
       case CueActionType.lastDuty:
