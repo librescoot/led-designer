@@ -21,7 +21,9 @@
             "duty": 0.0
           }
         ],
-        "sampleRate": 250
+        "sampleRate": 250,
+        "fadeIndex": 0,
+        "filename": "fade0"
       },
       {
         "name": "fade02",
@@ -36,7 +38,9 @@
             "duty": 0.75
           }
         ],
-        "sampleRate": 250
+        "sampleRate": 250,
+        "fadeIndex": 1,
+        "filename": "fade1"
       },
       {
         "name": "fade03",
@@ -51,7 +55,9 @@
             "duty": 0.0
           }
         ],
-        "sampleRate": 250
+        "sampleRate": 250,
+        "fadeIndex": 2,
+        "filename": "fade2"
       },
       {
         "name": "fade04",
@@ -70,7 +76,9 @@
             "duty": 0.75
           }
         ],
-        "sampleRate": 250
+        "sampleRate": 250,
+        "fadeIndex": 3,
+        "filename": "fade3"
       },
       {
         "name": "fade05",
@@ -85,7 +93,9 @@
             "duty": 0.15
           }
         ],
-        "sampleRate": 250
+        "sampleRate": 250,
+        "fadeIndex": 4,
+        "filename": "fade4"
       },
       {
         "name": "fade06",
@@ -100,7 +110,9 @@
             "duty": 0.75
           }
         ],
-        "sampleRate": 250
+        "sampleRate": 250,
+        "fadeIndex": 5,
+        "filename": "fade5"
       },
       {
         "name": "fade07",
@@ -127,7 +139,9 @@
             "duty": 0.0
           }
         ],
-        "sampleRate": 250
+        "sampleRate": 250,
+        "fadeIndex": 6,
+        "filename": "fade6"
       },
       {
         "name": "fade08",
@@ -150,7 +164,9 @@
             "duty": 0.0
           }
         ],
-        "sampleRate": 250
+        "sampleRate": 250,
+        "fadeIndex": 7,
+        "filename": "fade7"
       },
       {
         "name": "fade09",
@@ -177,7 +193,9 @@
             "duty": 0.15
           }
         ],
-        "sampleRate": 250
+        "sampleRate": 250,
+        "fadeIndex": 8,
+        "filename": "fade8"
       },
       {
         "name": "fade10",
@@ -192,7 +210,9 @@
             "duty": 1.0
           }
         ],
-        "sampleRate": 250
+        "sampleRate": 250,
+        "fadeIndex": 9,
+        "filename": "fade9"
       },
       {
         "name": "fade11",
@@ -207,7 +227,9 @@
             "duty": 0.0
           }
         ],
-        "sampleRate": 250
+        "sampleRate": 250,
+        "fadeIndex": 10,
+        "filename": "fade10"
       }
     ],
     "cues": [
@@ -255,7 +277,8 @@
             "type": "duty",
             "value": 0.0
           }
-        ]
+        ],
+        "filename": "cue0"
       },
       {
         "name": "standby_to_parked_brake_off",
@@ -276,7 +299,8 @@
             "type": "fade",
             "value": 3
           }
-        ]
+        ],
+        "filename": "cue1"
       },
       {
         "name": "standby_to_parked_brake_on",
@@ -297,7 +321,8 @@
             "type": "fade",
             "value": 1
           }
-        ]
+        ],
+        "filename": "cue2"
       },
       {
         "name": "parked_to_drive",
@@ -306,9 +331,10 @@
           {
             "ledIndex": 0,
             "type": "fade",
-            "value": 3
+            "value": 9
           }
-        ]
+        ],
+        "filename": "cue3"
       },
       {
         "name": "brake_off_to_brake_on",
@@ -319,7 +345,8 @@
             "type": "fade",
             "value": 5
           }
-        ]
+        ],
+        "filename": "cue4"
       },
       {
         "name": "brake_on_to_brake_off",
@@ -330,7 +357,8 @@
             "type": "fade",
             "value": 4
           }
-        ]
+        ],
+        "filename": "cue5"
       },
       {
         "name": "drive_to_parked",
@@ -339,9 +367,10 @@
           {
             "ledIndex": 0,
             "type": "fade",
-            "value": 6
+            "value": 10
           }
-        ]
+        ],
+        "filename": "cue6"
       },
       {
         "name": "parked_brake_off_to_standby",
@@ -382,7 +411,8 @@
             "type": "fade",
             "value": 6
           }
-        ]
+        ],
+        "filename": "cue7"
       },
       {
         "name": "parked_brake_on_to_standby",
@@ -423,7 +453,8 @@
             "type": "fade",
             "value": 6
           }
-        ]
+        ],
+        "filename": "cue8"
       },
       {
         "name": "blink_none",
@@ -449,7 +480,8 @@
             "type": "duty",
             "value": 0.0
           }
-        ]
+        ],
+        "filename": "cue9"
       },
       {
         "name": "blink_left",
@@ -465,7 +497,8 @@
             "type": "fade",
             "value": 0
           }
-        ]
+        ],
+        "filename": "cue10"
       },
       {
         "name": "blink_right",
@@ -481,7 +514,8 @@
             "type": "fade",
             "value": 0
           }
-        ]
+        ],
+        "filename": "cue11"
       },
       {
         "name": "blink_both",
@@ -507,7 +541,8 @@
             "type": "fade",
             "value": 0
           }
-        ]
+        ],
+        "filename": "cue12"
       }
     ]
   }
