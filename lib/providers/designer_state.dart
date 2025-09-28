@@ -116,4 +116,19 @@ class DesignerState extends ChangeNotifier {
     _selectedCue = null;
     notifyListeners();
   }
+
+  void importBinary(Map<String, dynamic> result) {
+    final importedFades = result['fades'] as List<Fade>;
+    final importedCues = result['cues'] as List<Cue>;
+
+    // Add imported fades
+    _fades.addAll(importedFades);
+
+    // Add imported cues
+    _cues.addAll(importedCues);
+
+    _selectedFade = null;
+    _selectedCue = null;
+    notifyListeners();
+  }
 }

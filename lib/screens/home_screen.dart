@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import '../providers/designer_state.dart';
 import '../widgets/fade_editor.dart';
 import '../widgets/cue_editor.dart';
+import '../models/binary_export.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -76,7 +77,7 @@ class HomeScreen extends StatelessWidget {
       if (outputDir != null) {
         final state = context.read<DesignerState>();
         await state.exportAll(outputDir);
-        
+
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Project exported successfully')),
@@ -87,6 +88,35 @@ class HomeScreen extends StatelessWidget {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error exporting project: $e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _importBinary(BuildContext context) async {
+    try {
+      String? inputDir = await FilePicker.platform.getDirectoryPath(
+        dialogTitle: 'Import Binary Fades/Cues',
+      );
+
+      if (inputDir != null) {
+        final result = await BinaryExport.importAll(inputDir);
+        final state = context.read<DesignerState>();
+
+        state.importBinary(result);
+
+        if (context.mounted) {
+          final fadeCount = (result['fades'] as List).length;
+          final cueCount = (result['cues'] as List).length;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Imported $fadeCount fades and $cueCount cues successfully')),
+          );
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error importing binary files: $e')),
         );
       }
     }
@@ -113,6 +143,11 @@ class HomeScreen extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.folder_open),
               onPressed: () => _loadProject(context),
+            ),
+            IconButton(
+              icon: const Icon(Icons.upload),
+              tooltip: 'Import Binary Files',
+              onPressed: () => _importBinary(context),
             ),
             IconButton(
               icon: const Icon(Icons.download),
