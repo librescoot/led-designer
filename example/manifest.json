@@ -1,736 +1,768 @@
 {
-    "fades": [
-      {
-        "name": "fade00",
-        "displayName": "smooth-on",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.0
-          },
-          {
-            "time": 1000.0,
-            "duty": 0.3
-          },
-          {
-            "time": 2000.0,
-            "duty": 0.75
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 0,
-        "filename": "fade0"
-      },
-      {
-        "name": "fade01",
-        "displayName": "smooth-off",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.75
-          },
-          {
-            "time": 485.0,
-            "duty": 0.75
-          },
-          {
-            "time": 950.0,
-            "duty": 0.4
-          },
-          {
-            "time": 1600.0,
-            "duty": 0.2
-          },
-          {
-            "time": 2000.0,
-            "duty": 0.0
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 1,
-        "filename": "fade1"
-      },
-      {
-        "name": "fade02",
-        "displayName": "linear-on",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.0
-          },
-          {
-            "time": 800.0,
-            "duty": 0.75
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 2,
-        "filename": "fade2"
-      },
-      {
-        "name": "fade03",
-        "displayName": "linear-off",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.75
-          },
-          {
-            "time": 800.0,
-            "duty": 0.0
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 3,
-        "filename": "fade3"
-      },
-      {
-        "name": "fade04",
-        "displayName": "smooth-off-to-half",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.0
-          },
-          {
-            "time": 350.0,
-            "duty": 0.02
-          },
-          {
-            "time": 1080.0,
-            "duty": 0.08
-          },
-          {
-            "time": 1745.0,
-            "duty": 0.12
-          },
-          {
-            "time": 2000.0,
-            "duty": 0.15
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 4,
-        "filename": "fade4"
-      },
-      {
-        "name": "fade05",
-        "displayName": "linear-half-to-full",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.15
-          },
-          {
-            "time": 100.0,
-            "duty": 0.75
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 5,
-        "filename": "fade5"
-      },
-      {
-        "name": "fade06",
-        "displayName": "linear-on-full",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.0
-          },
-          {
-            "time": 2000.0,
-            "duty": 1.0
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 6,
-        "filename": "fade6"
-      },
-      {
-        "name": "fade07",
-        "displayName": "linear-full-to-half",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.75
-          },
-          {
-            "time": 100.0,
-            "duty": 0.15
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 7,
-        "filename": "fade7"
-      },
-      {
-        "name": "fade08",
-        "displayName": "linear-off-full",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 1.0
-          },
-          {
-            "time": 2000.0,
-            "duty": 0.0
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 8,
-        "filename": "fade8"
-      },
-      {
-        "name": "fade09",
-        "displayName": "smooth-half-to-off",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.15
-          },
-          {
-            "time": 1285.0,
-            "duty": 0.1
-          },
-          {
-            "time": 1755.0,
-            "duty": 0.05
-          },
-          {
-            "time": 2000.0,
-            "duty": 0.0
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 9,
-        "filename": "fade9"
-      },
-      {
-        "name": "fade10",
-        "displayName": "blink",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.0
-          },
-          {
-            "time": 10.0,
-            "duty": 0.021952
-          },
-          {
-            "time": 20.0,
-            "duty": 0.060199
-          },
-          {
-            "time": 30.0,
-            "duty": 0.107154
-          },
-          {
-            "time": 40.0,
-            "duty": 0.159737
-          },
-          {
-            "time": 50.0,
-            "duty": 0.216
-          },
-          {
-            "time": 60.0,
-            "duty": 0.274528
-          },
-          {
-            "time": 70.0,
-            "duty": 0.334218
-          },
-          {
-            "time": 80.0,
-            "duty": 0.394175
-          },
-          {
-            "time": 90.0,
-            "duty": 0.453649
-          },
-          {
-            "time": 100.0,
-            "duty": 0.512
-          },
-          {
-            "time": 110.0,
-            "duty": 0.568677
-          },
-          {
-            "time": 120.0,
-            "duty": 0.6232
-          },
-          {
-            "time": 130.0,
-            "duty": 0.675146
-          },
-          {
-            "time": 140.0,
-            "duty": 0.724145
-          },
-          {
-            "time": 150.0,
-            "duty": 0.769873
-          },
-          {
-            "time": 160.0,
-            "duty": 0.812042
-          },
-          {
-            "time": 170.0,
-            "duty": 0.850402
-          },
-          {
-            "time": 180.0,
-            "duty": 0.884736
-          },
-          {
-            "time": 190.0,
-            "duty": 0.914856
-          },
-          {
-            "time": 200.0,
-            "duty": 0.940604
-          },
-          {
-            "time": 210.0,
-            "duty": 0.961847
-          },
-          {
-            "time": 220.0,
-            "duty": 0.978478
-          },
-          {
-            "time": 230.0,
-            "duty": 0.990415
-          },
-          {
-            "time": 240.0,
-            "duty": 0.997601
-          },
-          {
-            "time": 250.0,
-            "duty": 1.0
-          },
-          {
-            "time": 260.0,
-            "duty": 0.997601
-          },
-          {
-            "time": 270.0,
-            "duty": 0.990415
-          },
-          {
-            "time": 280.0,
-            "duty": 0.978478
-          },
-          {
-            "time": 290.0,
-            "duty": 0.961847
-          },
-          {
-            "time": 300.0,
-            "duty": 0.940604
-          },
-          {
-            "time": 310.0,
-            "duty": 0.914856
-          },
-          {
-            "time": 320.0,
-            "duty": 0.884736
-          },
-          {
-            "time": 330.0,
-            "duty": 0.850402
-          },
-          {
-            "time": 340.0,
-            "duty": 0.812042
-          },
-          {
-            "time": 350.0,
-            "duty": 0.769873
-          },
-          {
-            "time": 360.0,
-            "duty": 0.724145
-          },
-          {
-            "time": 370.0,
-            "duty": 0.675146
-          },
-          {
-            "time": 380.0,
-            "duty": 0.6232
-          },
-          {
-            "time": 390.0,
-            "duty": 0.568677
-          },
-          {
-            "time": 400.0,
-            "duty": 0.512
-          },
-          {
-            "time": 410.0,
-            "duty": 0.453649
-          },
-          {
-            "time": 420.0,
-            "duty": 0.394175
-          },
-          {
-            "time": 430.0,
-            "duty": 0.334218
-          },
-          {
-            "time": 440.0,
-            "duty": 0.274528
-          },
-          {
-            "time": 450.0,
-            "duty": 0.216
-          },
-          {
-            "time": 460.0,
-            "duty": 0.159737
-          },
-          {
-            "time": 470.0,
-            "duty": 0.107154
-          },
-          {
-            "time": 480.0,
-            "duty": 0.060199
-          },
-          {
-            "time": 490.0,
-            "duty": 0.021952
-          },
-          {
-            "time": 500.0,
-            "duty": 0.0
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 10,
-        "filename": "fade10"
-      }
-    ],
-    "cues": [
-      {
-        "name": "all_off",
-        "cueIndex": 0,
-        "actions": [
-          {
-            "ledIndex": 3,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 4,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 6,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 7,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 0,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 1,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 2,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 5,
-            "type": "duty",
-            "value": 0.0
-          }
-        ],
-        "filename": "cue0"
-      },
-      {
-        "name": "standby_to_parked_brake_off",
-        "cueIndex": 1,
-        "actions": [
-          {
-            "ledIndex": 1,
-            "type": "fade",
-            "value": 0
-          },
-          {
-            "ledIndex": 2,
-            "type": "fade",
-            "value": 4
-          },
-          {
-            "ledIndex": 5,
-            "type": "fade",
-            "value": 0
-          }
-        ],
-        "filename": "cue1"
-      },
-      {
-        "name": "standby_to_parked_brake_on",
-        "cueIndex": 2,
-        "actions": [
-          {
-            "ledIndex": 1,
-            "type": "fade",
-            "value": 0
-          },
-          {
-            "ledIndex": 5,
-            "type": "fade",
-            "value": 0
-          },
-          {
-            "ledIndex": 2,
-            "type": "fade",
-            "value": 2
-          }
-        ],
-        "filename": "cue2"
-      },
-      {
-        "name": "parked_to_drive",
-        "cueIndex": 3,
-        "actions": [
-          {
-            "ledIndex": 0,
-            "type": "fade",
-            "value": 6
-          }
-        ],
-        "filename": "cue3"
-      },
-      {
-        "name": "brake_off_to_brake_on",
-        "cueIndex": 4,
-        "actions": [
-          {
-            "ledIndex": 2,
-            "type": "fade",
-            "value": 5
-          }
-        ],
-        "filename": "cue4"
-      },
-      {
-        "name": "brake_on_to_brake_off",
-        "cueIndex": 5,
-        "actions": [
-          {
-            "ledIndex": 2,
-            "type": "fade",
-            "value": 7
-          }
-        ],
-        "filename": "cue5"
-      },
-      {
-        "name": "drive_to_parked",
-        "cueIndex": 6,
-        "actions": [
-          {
-            "ledIndex": 0,
-            "type": "fade",
-            "value": 8
-          }
-        ],
-        "filename": "cue6"
-      },
-      {
-        "name": "parked_brake_off_to_standby",
-        "cueIndex": 7,
-        "actions": [
-          {
-            "ledIndex": 3,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 4,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 6,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 7,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 1,
-            "type": "fade",
-            "value": 1
-          },
-          {
-            "ledIndex": 2,
-            "type": "fade",
-            "value": 9
-          },
-          {
-            "ledIndex": 5,
-            "type": "fade",
-            "value": 1
-          }
-        ],
-        "filename": "cue7"
-      },
-      {
-        "name": "parked_brake_on_to_standby",
-        "cueIndex": 8,
-        "actions": [
-          {
-            "ledIndex": 3,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 4,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 6,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 7,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 1,
-            "type": "fade",
-            "value": 1
-          },
-          {
-            "ledIndex": 5,
-            "type": "fade",
-            "value": 1
-          },
-          {
-            "ledIndex": 2,
-            "type": "fade",
-            "value": 1
-          }
-        ],
-        "filename": "cue8"
-      },
-      {
-        "name": "blink_none",
-        "cueIndex": 9,
-        "actions": [
-          {
-            "ledIndex": 3,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 4,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 6,
-            "type": "duty",
-            "value": 0.0
-          },
-          {
-            "ledIndex": 7,
-            "type": "duty",
-            "value": 0.0
-          }
-        ],
-        "filename": "cue9"
-      },
-      {
-        "name": "blink_left",
-        "cueIndex": 10,
-        "actions": [
-          {
-            "ledIndex": 3,
-            "type": "fade",
-            "value": 10
-          },
-          {
-            "ledIndex": 6,
-            "type": "fade",
-            "value": 10
-          }
-        ],
-        "filename": "cue10"
-      },
-      {
-        "name": "blink_right",
-        "cueIndex": 11,
-        "actions": [
-          {
-            "ledIndex": 4,
-            "type": "fade",
-            "value": 10
-          },
-          {
-            "ledIndex": 7,
-            "type": "fade",
-            "value": 10
-          }
-        ],
-        "filename": "cue11"
-      },
-      {
-        "name": "blink_both",
-        "cueIndex": 12,
-        "actions": [
-          {
-            "ledIndex": 3,
-            "type": "fade",
-            "value": 10
-          },
-          {
-            "ledIndex": 4,
-            "type": "fade",
-            "value": 10
-          },
-          {
-            "ledIndex": 6,
-            "type": "fade",
-            "value": 10
-          },
-          {
-            "ledIndex": 7,
-            "type": "fade",
-            "value": 10
-          }
-        ],
-        "filename": "cue12"
-      }
-    ]
-  }
+  "fades": [
+    {
+      "name": "fade00",
+      "displayName": "parking-smooth-on",
+      "points": [
+        {
+          "time": 0.0,
+          "duty": 0.0
+        },
+        {
+          "time": 320,
+          "duty": 0.0015
+        },
+        {
+          "time": 770,
+          "duty": 0.004
+        },
+        {
+          "time": 1610,
+          "duty": 0.016
+        },
+        {
+          "time": 2450,
+          "duty": 0.076
+        },
+        {
+          "time": 3000.0,
+          "duty": 0.20
+        }
+      ],
+      "sampleRate": 250,
+      "curveType": "bezier"
+    },
+    {
+      "name": "fade01",
+      "displayName": "smooth-off",
+      "points": [
+        {
+          "time": 0.0,
+          "duty": 0.20
+        },
+        {
+          "time": 1750,
+          "duty": 0.067
+        },
+        {
+          "time": 2300,
+          "duty": 0.0
+        }
+      ],
+      "sampleRate": 250,
+      "curveType": "bezier"
+    },
+    {
+      "name": "fade02",
+      "displayName": "brake-linear-on",
+      "points": [
+        {
+          "time": 0.0,
+          "duty": 0.0
+        },
+        {
+          "time": 800.0,
+          "duty": 0.75
+        }
+      ],
+      "sampleRate": 250,
+      "curveType": "linear"
+    },
+    {
+      "name": "fade03",
+      "displayName": "brake-linear-off",
+      "points": [
+        {
+          "time": 0.0,
+          "duty": 0.75
+        },
+        {
+          "time": 1420,
+          "duty": 0.5
+        },
+        {
+          "time": 1800.0,
+          "duty": 0.0
+        }
+      ],
+      "sampleRate": 250,
+      "curveType": "bezier"
+    },
+    {
+      "name": "fade04",
+      "displayName": "brake-dim-on",
+      "points": [
+        {
+          "time": 0.0,
+          "duty": 0.004
+        },
+        {
+          "time": 975,
+          "duty": 0.005
+        },
+        {
+          "time": 1845,
+          "duty": 0.010
+        },
+        {
+          "time": 2500.0,
+          "duty": 0.013
+        }
+      ],
+      "sampleRate": 250,
+      "curveType": "bezier"
+    },
+    {
+      "name": "fade05",
+      "displayName": "brake-half-to-full",
+      "points": [
+        {
+          "time": 0.0,
+          "duty": 0.013
+        },
+        {
+          "time": 70,
+          "duty": 0.084
+        },
+        {
+          "time": 220,
+          "duty": 0.162
+        },
+        {
+          "time": 300.0,
+          "duty": 0.54
+        }
+      ],
+      "sampleRate": 250,
+      "curveType": "bezier"
+    },
+    {
+      "name": "fade06",
+      "displayName": "drive-light-on",
+      "points": [
+        {
+          "time": 0.0,
+          "duty": 0.005
+        },
+        {
+          "time": 170,
+          "duty": 0.15
+        },
+        {
+          "time": 800.0,
+          "duty": 0.8
+        }
+      ],
+      "sampleRate": 250,
+      "curveType": "bezier"
+    },
+    {
+      "name": "fade07",
+      "displayName": "brake-full-to-half",
+      "points": [
+        {
+          "time": 0.0,
+          "duty": 0.54
+        },
+        {
+          "time": 60,
+          "duty": 0.52
+        },
+        {
+          "time": 200.0,
+          "duty": 0.018
+        }
+      ],
+      "sampleRate": 250,
+      "curveType": "bezier"
+    },
+    {
+      "name": "fade08",
+      "displayName": "drive-light-off",
+      "points": [
+        {
+          "time": 0.0,
+          "duty": 0.8
+        },
+        {
+          "time": 300,
+          "duty": 0.3
+        },
+        {
+          "time": 1700,
+          "duty": 0.085
+        },
+        {
+          "time": 2000.0,
+          "duty": 0.0
+        }
+      ],
+      "sampleRate": 250,
+      "curveType": "bezier"
+    },
+    {
+      "name": "fade09",
+      "displayName": "brake-dim-off",
+      "points": [
+        {
+          "time": 0.0,
+          "duty": 0.015
+        },
+        {
+          "time": 870,
+          "duty": 0.011
+        },
+        {
+          "time": 1365,
+          "duty": 0.006
+        },
+        {
+          "time": 2000.0,
+          "duty": 0.004
+        }
+      ],
+      "sampleRate": 250,
+      "curveType": "bezier"
+    },
+    {
+      "name": "fade10",
+      "displayName": "blink",
+      "points": [
+        {
+          "time": 0.0,
+          "duty": 0.0
+        },
+        {
+          "time": 10.0,
+          "duty": 0.022
+        },
+        {
+          "time": 20.0,
+          "duty": 0.060
+        },
+        {
+          "time": 30.0,
+          "duty": 0.107
+        },
+        {
+          "time": 40.0,
+          "duty": 0.160
+        },
+        {
+          "time": 50.0,
+          "duty": 0.216
+        },
+        {
+          "time": 60.0,
+          "duty": 0.275
+        },
+        {
+          "time": 70.0,
+          "duty": 0.334
+        },
+        {
+          "time": 80.0,
+          "duty": 0.394
+        },
+        {
+          "time": 90.0,
+          "duty": 0.454
+        },
+        {
+          "time": 100.0,
+          "duty": 0.512
+        },
+        {
+          "time": 110.0,
+          "duty": 0.569
+        },
+        {
+          "time": 120.0,
+          "duty": 0.6232
+        },
+        {
+          "time": 130.0,
+          "duty": 0.675
+        },
+        {
+          "time": 140.0,
+          "duty": 0.724
+        },
+        {
+          "time": 150.0,
+          "duty": 0.770
+        },
+        {
+          "time": 160.0,
+          "duty": 0.812
+        },
+        {
+          "time": 170.0,
+          "duty": 0.850
+        },
+        {
+          "time": 180.0,
+          "duty": 0.885
+        },
+        {
+          "time": 190.0,
+          "duty": 0.915
+        },
+        {
+          "time": 200.0,
+          "duty": 0.941
+        },
+        {
+          "time": 210.0,
+          "duty": 0.962
+        },
+        {
+          "time": 220.0,
+          "duty": 0.978
+        },
+        {
+          "time": 230.0,
+          "duty": 0.990
+        },
+        {
+          "time": 240.0,
+          "duty": 0.998
+        },
+        {
+          "time": 250.0,
+          "duty": 1.0
+        },
+        {
+          "time": 260.0,
+          "duty": 0.998
+        },
+        {
+          "time": 270.0,
+          "duty": 0.990
+        },
+        {
+          "time": 280.0,
+          "duty": 0.978
+        },
+        {
+          "time": 290.0,
+          "duty": 0.962
+        },
+        {
+          "time": 300.0,
+          "duty": 0.941
+        },
+        {
+          "time": 310.0,
+          "duty": 0.915
+        },
+        {
+          "time": 320.0,
+          "duty": 0.885
+        },
+        {
+          "time": 330.0,
+          "duty": 0.850
+        },
+        {
+          "time": 340.0,
+          "duty": 0.812
+        },
+        {
+          "time": 350.0,
+          "duty": 0.770
+        },
+        {
+          "time": 360.0,
+          "duty": 0.724
+        },
+        {
+          "time": 370.0,
+          "duty": 0.675
+        },
+        {
+          "time": 380.0,
+          "duty": 0.6232
+        },
+        {
+          "time": 390.0,
+          "duty": 0.569
+        },
+        {
+          "time": 400.0,
+          "duty": 0.512
+        },
+        {
+          "time": 410.0,
+          "duty": 0.454
+        },
+        {
+          "time": 420.0,
+          "duty": 0.394
+        },
+        {
+          "time": 430.0,
+          "duty": 0.334
+        },
+        {
+          "time": 440.0,
+          "duty": 0.275
+        },
+        {
+          "time": 450.0,
+          "duty": 0.216
+        },
+        {
+          "time": 460.0,
+          "duty": 0.160
+        },
+        {
+          "time": 470.0,
+          "duty": 0.107
+        },
+        {
+          "time": 480.0,
+          "duty": 0.060
+        },
+        {
+          "time": 490.0,
+          "duty": 0.022
+        },
+        {
+          "time": 500.0,
+          "duty": 0.0
+        }
+      ],
+      "sampleRate": 250,
+      "curveType": "linear"
+    },
+    {
+      "name": "fade11",
+      "displayName": "smooth-off",
+      "points": [
+        {
+          "time": 0.0,
+          "duty": 0.197
+        },
+        {
+          "time": 360,
+          "duty": 0.112
+        },
+        {
+          "time": 640,
+          "duty": 0.039
+        },
+        {
+          "time": 1600,
+          "duty": 0.019
+        },
+        {
+          "time": 2000,
+          "duty": 0.001
+        }
+      ],
+      "sampleRate": 250,
+      "curveType": "bezier"
+    }
+  ],
+  "cues": [
+    {
+      "name": "all_off",
+      "cueIndex": 0,
+      "actions": [
+        {
+          "ledIndex": 3,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 4,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 6,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 7,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 0,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 1,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 2,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 5,
+          "type": "duty",
+          "value": 0.0
+        }
+      ]
+    },
+    {
+      "name": "standby_to_parked_brake_off",
+      "cueIndex": 1,
+      "actions": [
+        {
+          "ledIndex": 1,
+          "type": "fade",
+          "value": 0
+        },
+        {
+          "ledIndex": 2,
+          "type": "fade",
+          "value": 4
+        },
+        {
+          "ledIndex": 5,
+          "type": "fade",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "standby_to_parked_brake_on",
+      "cueIndex": 2,
+      "actions": [
+        {
+          "ledIndex": 1,
+          "type": "fade",
+          "value": 0
+        },
+        {
+          "ledIndex": 5,
+          "type": "fade",
+          "value": 0
+        },
+        {
+          "ledIndex": 2,
+          "type": "fade",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "parked_to_drive",
+      "cueIndex": 3,
+      "actions": [
+        {
+          "ledIndex": 0,
+          "type": "fade",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "name": "brake_off_to_brake_on",
+      "cueIndex": 4,
+      "actions": [
+        {
+          "ledIndex": 2,
+          "type": "fade",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "name": "brake_on_to_brake_off",
+      "cueIndex": 5,
+      "actions": [
+        {
+          "ledIndex": 2,
+          "type": "fade",
+          "value": 7
+        }
+      ]
+    },
+    {
+      "name": "drive_to_parked",
+      "cueIndex": 6,
+      "actions": [
+        {
+          "ledIndex": 0,
+          "type": "fade",
+          "value": 8
+        }
+      ]
+    },
+    {
+      "name": "parked_brake_off_to_standby",
+      "cueIndex": 7,
+      "actions": [
+        {
+          "ledIndex": 3,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 4,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 6,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 7,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 1,
+          "type": "fade",
+          "value": 1
+        },
+        {
+          "ledIndex": 2,
+          "type": "fade",
+          "value": 9
+        },
+        {
+          "ledIndex": 5,
+          "type": "fade",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "parked_brake_on_to_standby",
+      "cueIndex": 8,
+      "actions": [
+        {
+          "ledIndex": 3,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 4,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 6,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 7,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 1,
+          "type": "fade",
+          "value": 1
+        },
+        {
+          "ledIndex": 5,
+          "type": "fade",
+          "value": 1
+        },
+        {
+          "ledIndex": 2,
+          "type": "fade",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "blink_none",
+      "cueIndex": 9,
+      "actions": [
+        {
+          "ledIndex": 3,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 4,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 6,
+          "type": "duty",
+          "value": 0.0
+        },
+        {
+          "ledIndex": 7,
+          "type": "duty",
+          "value": 0.0
+        }
+      ]
+    },
+    {
+      "name": "blink_left",
+      "cueIndex": 10,
+      "actions": [
+        {
+          "ledIndex": 3,
+          "type": "fade",
+          "value": 10
+        },
+        {
+          "ledIndex": 6,
+          "type": "fade",
+          "value": 10
+        }
+      ]
+    },
+    {
+      "name": "blink_right",
+      "cueIndex": 11,
+      "actions": [
+        {
+          "ledIndex": 4,
+          "type": "fade",
+          "value": 10
+        },
+        {
+          "ledIndex": 7,
+          "type": "fade",
+          "value": 10
+        }
+      ]
+    },
+    {
+      "name": "blink_both",
+      "cueIndex": 12,
+      "actions": [
+        {
+          "ledIndex": 3,
+          "type": "fade",
+          "value": 10
+        },
+        {
+          "ledIndex": 4,
+          "type": "fade",
+          "value": 10
+        },
+        {
+          "ledIndex": 6,
+          "type": "fade",
+          "value": 10
+        },
+        {
+          "ledIndex": 7,
+          "type": "fade",
+          "value": 10
+        }
+      ]
+    }
+  ]
+}

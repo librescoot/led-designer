@@ -38,7 +38,7 @@ class CueAction {
         break;
       case 'duty':
         type = CueActionType.duty;
-        value = value as double;
+        value = (value as num).toDouble();
         break;
       case 'last_duty':
         type = CueActionType.lastDuty;

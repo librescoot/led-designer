@@ -137,20 +137,29 @@ class HomeScreen extends StatelessWidget {
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.save),
-              onPressed: () => _saveProject(context),
-            ),
-            IconButton(
               icon: const Icon(Icons.folder_open),
+              tooltip: 'Open Project',
               onPressed: () => _loadProject(context),
             ),
             IconButton(
-              icon: const Icon(Icons.upload),
+              icon: const Icon(Icons.save),
+              tooltip: 'Save Project',
+              onPressed: () => _saveProject(context),
+            ),
+            const VerticalDivider(
+              width: 20,
+              thickness: 1,
+              indent: 12,
+              endIndent: 12,
+            ),
+            IconButton(
+              icon: const Icon(Icons.download),
               tooltip: 'Import Binary Files',
               onPressed: () => _importBinary(context),
             ),
             IconButton(
-              icon: const Icon(Icons.download),
+              icon: const Icon(Icons.upload),
+              tooltip: 'Export Project',
               onPressed: () => _exportProject(context),
             ),
           ],

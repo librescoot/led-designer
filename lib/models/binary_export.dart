@@ -47,19 +47,21 @@ class BinaryExport {
     // Create a map to track fade indices
     var fadeIndices = <String, int>{};
     
-    // Export fades with numeric filenames
+    // Export fades with index and display name
     for (var i = 0; i < fades.length; i++) {
       var fade = fades[i];
-      var path = '${dir.path}/fade$i';
+      var sanitizedName = fade.displayName.replaceAll(RegExp(r'[^\w\-_.]'), '_');
+      var path = '${dir.path}/fade$i-$sanitizedName';
       fadeIndices[fade.name] = i;  // Store the index for this fade
       await exportFade(fade, path, i);
     }
 
-    // Export cues with numeric filenames
+    // Export cues with index and name
     for (var i = 0; i < cues.length; i++) {
       var cue = cues[i];
       var index = cue.cueIndex ?? i;
-      var path = '${dir.path}/cue$index';
+      var sanitizedName = cue.name.replaceAll(RegExp(r'[^\w\-_.]'), '_');
+      var path = '${dir.path}/cue$index-$sanitizedName';
       await exportCue(cue, path, fadeIndices);
     }
 
@@ -68,11 +70,11 @@ class BinaryExport {
       'fades': fades.map((f) => {
         ...f.toJson(),
         'fadeIndex': fadeIndices[f.name],
-        'filename': 'fade${fadeIndices[f.name]}',
+        'filename': 'fade${fadeIndices[f.name]}-${f.displayName.replaceAll(RegExp(r'[^\w\-_.]'), '_')}',
       }).toList(),
       'cues': cues.map((c) => {
         ...c.toJson(),
-        'filename': 'cue${c.cueIndex ?? cues.indexOf(c)}',
+        'filename': 'cue${c.cueIndex ?? cues.indexOf(c)}-${c.name.replaceAll(RegExp(r'[^\w\-_.]'), '_')}',
       }).toList(),
     };
     

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'dart:math' show max;
+import 'dart:math';
 import 'dart:async';
 import '../models/fade.dart';
 import '../providers/designer_state.dart';
@@ -191,39 +191,71 @@ class _FadeEditorState extends State<FadeEditor> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _durationController = TextEditingController(text: '1000');
+  final _pointXController = TextEditingController();
+  final _pointYController = TextEditingController();
   final List<FadePoint> _points = [];
   int? _selectedPointIndex;
   double _maxDuration = 1000.0;
   Fade? _editingFade; // Track the fade being edited
+  CurveType _curveType = CurveType.linear; // Current curve type
+  bool _useLogScale = false; // Use logarithmic scale
 
   @override
   void initState() {
     super.initState();
-    _durationController.addListener(_updateMaxDuration);
+    // Removed continuous listener - duration updates only on blur/enter
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     _durationController.dispose();
+    _pointXController.dispose();
+    _pointYController.dispose();
     super.dispose();
   }
 
-  void _updateMaxDuration() {
+  void _handleDurationUpdate() {
     final newDuration = double.tryParse(_durationController.text);
-    if (newDuration != null && newDuration > 0) {
+    if (newDuration != null && newDuration > 0 && newDuration != _maxDuration) {
       setState(() {
-        _maxDuration = newDuration;
-        // Scale existing points to new duration if needed
+        // Rescale all existing points proportionally
         if (_points.isNotEmpty) {
-          final oldMax = _points.map((p) => p.time).reduce(max);
-          if (oldMax > _maxDuration) {
-            final scale = _maxDuration / oldMax;
-            for (var i = 0; i < _points.length; i++) {
-              _points[i] = FadePoint(_points[i].time * scale, _points[i].duty);
-            }
+          final oldDuration = _maxDuration;
+          final scale = newDuration / oldDuration;
+          for (var i = 0; i < _points.length; i++) {
+            _points[i] = FadePoint(_points[i].time * scale, _points[i].duty);
           }
         }
+        _maxDuration = newDuration;
+        _updatePointValueControllers(); // Update if a point is selected
+      });
+    }
+  }
+
+  void _updatePointValueControllers() {
+    if (_selectedPointIndex != null && _selectedPointIndex! < _points.length) {
+      final point = _points[_selectedPointIndex!];
+      _pointXController.text = point.time.toStringAsFixed(1);
+      _pointYController.text = (point.duty * 100).toStringAsFixed(1);
+    } else {
+      _pointXController.clear();
+      _pointYController.clear();
+    }
+  }
+
+  void _handlePointValueUpdate() {
+    if (_selectedPointIndex == null) return;
+
+    final newX = double.tryParse(_pointXController.text);
+    final newY = double.tryParse(_pointYController.text);
+
+    if (newX != null && newY != null && newX >= 0 && newX <= _maxDuration && newY >= 0 && newY <= 100) {
+      setState(() {
+        _points[_selectedPointIndex!] = FadePoint(newX, newY / 100.0);
+        _points.sort((a, b) => a.time.compareTo(b.time));
+        // Update selected index after sorting
+        _selectedPointIndex = _points.indexWhere((p) => p.time == newX && p.duty == (newY / 100.0));
       });
     }
   }
@@ -236,20 +268,27 @@ class _FadeEditorState extends State<FadeEditor> {
       }
     }
 
+    // Convert y back from log scale if needed
+    final actualY = _transformFromLog(y);
+
     setState(() {
-      _points.add(FadePoint(x.clamp(0, _maxDuration), y.clamp(0, 1)));
+      _points.add(FadePoint(x.clamp(0, _maxDuration), actualY.clamp(0, 1)));
       _points.sort((a, b) => a.time.compareTo(b.time));
     });
   }
 
   void _updatePoint(int index, double x, double y) {
+    // Convert y back from log scale if needed
+    final actualY = _transformFromLog(y);
+
     setState(() {
-      _points[index] = FadePoint(x.clamp(0, _maxDuration), y.clamp(0, 1));
+      _points[index] = FadePoint(x.clamp(0, _maxDuration), actualY.clamp(0, 1));
       _points.sort((a, b) => a.time.compareTo(b.time));
       // Update selected point index after sorting
       if (_selectedPointIndex == index) {
-        _selectedPointIndex = _points.indexWhere((p) => p.time == x && p.duty == y);
+        _selectedPointIndex = _points.indexWhere((p) => p.time == x && p.duty == actualY);
       }
+      _updatePointValueControllers();
     });
   }
 
@@ -261,6 +300,7 @@ class _FadeEditorState extends State<FadeEditor> {
       } else if (_selectedPointIndex != null && _selectedPointIndex! > index) {
         _selectedPointIndex = _selectedPointIndex! - 1;
       }
+      _updatePointValueControllers();
     });
   }
 
@@ -294,7 +334,9 @@ class _FadeEditorState extends State<FadeEditor> {
       _nameController.clear();
       _points.clear();
       _selectedPointIndex = null;
-      _formKey.currentState?.reset(); // Reset validation state
+      _curveType = CurveType.linear;
+      _formKey.currentState?.reset();
+      _updatePointValueControllers();
     });
   }
 
@@ -308,18 +350,24 @@ class _FadeEditorState extends State<FadeEditor> {
           displayName: _nameController.text, // Use new display name
           points: List.from(_points),
           sampleRate: _editingFade!.sampleRate, // Preserve sample rate
+          curveType: _curveType,
         );
         state.updateFade(updatedFade);
+        // Update the editing fade reference with the new fade
+        _editingFade = updatedFade;
       } else {
         // Add new fade
         final newFade = Fade(
           name: _nameController.text, // Will become displayName in addFade
           points: List.from(_points),
+          curveType: _curveType,
           // Default sampleRate is handled in Fade constructor
         );
         state.addFade(newFade);
+        // Set the editing fade to the new fade so it can be updated in future saves
+        _editingFade = newFade;
       }
-      _resetEditor(); // Reset editor after save/update
+      // Don't reset editor after save - keep current state
     }
   }
 
@@ -369,6 +417,9 @@ class _FadeEditorState extends State<FadeEditor> {
                                   _points.addAll(fade.points);
                                   _maxDuration = fade.duration;
                                   _durationController.text = _maxDuration.toString();
+                                  _curveType = fade.curveType; // Load curve type
+                                  _selectedPointIndex = null; // Clear selection
+                                  _updatePointValueControllers(); // Clear point value fields
                                 });
                               },
                             ),
@@ -417,23 +468,45 @@ class _FadeEditorState extends State<FadeEditor> {
                         const SizedBox(width: 16),
                         SizedBox(
                           width: 120,
-                          child: TextFormField(
-                            controller: _durationController,
-                            decoration: const InputDecoration(
-                              labelText: 'Duration (ms)',
-                            ),
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Required';
+                          child: Focus(
+                            onFocusChange: (hasFocus) {
+                              if (!hasFocus) {
+                                _handleDurationUpdate();
                               }
-                              final duration = double.tryParse(value);
-                              if (duration == null || duration <= 0) {
-                                return 'Invalid duration';
-                              }
-                              return null;
                             },
+                            child: TextFormField(
+                              controller: _durationController,
+                              decoration: const InputDecoration(
+                                labelText: 'Duration (ms)',
+                              ),
+                              keyboardType: TextInputType.number,
+                              onFieldSubmitted: (_) => _handleDurationUpdate(),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Required';
+                                }
+                                final duration = double.tryParse(value);
+                                if (duration == null || duration <= 0) {
+                                  return 'Invalid duration';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
+                        ),
+                        const SizedBox(width: 16),
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: _curveType == CurveType.bezier,
+                              onChanged: (value) {
+                                setState(() {
+                                  _curveType = value == true ? CurveType.bezier : CurveType.linear;
+                                });
+                              },
+                            ),
+                            const Text('Bézier Curves'),
+                          ],
                         ),
                       ],
                     ),
@@ -486,16 +559,78 @@ class _FadeEditorState extends State<FadeEditor> {
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextButton(
-                        onPressed: _resetEditor,
-                        child: const Text('Clear'),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: _useLogScale,
+                            onChanged: (value) {
+                              setState(() {
+                                _useLogScale = value == true;
+                              });
+                            },
+                          ),
+                          const Text('Log Scale'),
+                          // Point value fields (only show when point is selected)
+                          if (_selectedPointIndex != null) ...[
+                            const SizedBox(width: 32),
+                            const Text('Selected Point:'),
+                            const SizedBox(width: 8),
+                            SizedBox(
+                              width: 100,
+                              child: Focus(
+                                onFocusChange: (hasFocus) {
+                                  if (!hasFocus) {
+                                    _handlePointValueUpdate();
+                                  }
+                                },
+                                child: TextFormField(
+                                  controller: _pointXController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Time (ms)',
+                                    isDense: true,
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  onFieldSubmitted: (_) => _handlePointValueUpdate(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            SizedBox(
+                              width: 80,
+                              child: Focus(
+                                onFocusChange: (hasFocus) {
+                                  if (!hasFocus) {
+                                    _handlePointValueUpdate();
+                                  }
+                                },
+                                child: TextFormField(
+                                  controller: _pointYController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Duty %',
+                                    isDense: true,
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  onFieldSubmitted: (_) => _handlePointValueUpdate(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
-                      const SizedBox(width: 8),
-                      ElevatedButton(
-                        onPressed: _saveFade,
-                        child: const Text('Save Fade'),
+                      Row(
+                        children: [
+                          TextButton(
+                            onPressed: _resetEditor,
+                            child: const Text('Clear'),
+                          ),
+                          const SizedBox(width: 8),
+                          ElevatedButton(
+                            onPressed: _saveFade,
+                            child: const Text('Save Fade'),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -508,15 +643,77 @@ class _FadeEditorState extends State<FadeEditor> {
     );
   }
 
+  /// Transform value to logarithmic scale for display
+  double _transformToLog(double value) {
+    if (!_useLogScale) return value;
+    // Use log10 for easier reading, map [0.001, 1.0] to [0.0, 1.0]
+    const minValue = 0.001;
+    const maxValue = 1.0;
+
+    // Clamp the value to avoid log(0)
+    double clampedValue = value.clamp(minValue, maxValue);
+
+    // Transform to log scale: log10(minValue) to log10(maxValue) => -3 to 0
+    double logValue = log(clampedValue) / ln10; // log10
+    double logMin = log(minValue) / ln10; // -3
+    double logMax = log(maxValue) / ln10; // 0
+
+    // Normalize to 0-1 range
+    return (logValue - logMin) / (logMax - logMin);
+  }
+
+  /// Transform value back from logarithmic scale
+  double _transformFromLog(double normalizedLogValue) {
+    if (!_useLogScale) return normalizedLogValue;
+
+    const minValue = 0.001;
+    const maxValue = 1.0;
+
+    double logMin = log(minValue) / ln10; // -3
+    double logMax = log(maxValue) / ln10; // 0
+
+    // Convert back from normalized to log value
+    double logValue = logMin + normalizedLogValue * (logMax - logMin);
+
+    // Convert back to linear
+    return pow(10, logValue).toDouble();
+  }
+
+  /// Get the Y-axis label values that fl_chart would display
+  List<double> _getYAxisLabels() {
+    if (!_useLogScale) {
+      // For linear scale, fl_chart typically shows labels at 0.1 intervals
+      return [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+          .map((v) => v)
+          .toList();
+    } else {
+      // For log scale, we need to determine where fl_chart would place labels
+      // Based on the chart's internal logic and our log transformation
+      final labels = <double>[];
+
+      // Add labels at key percentage points transformed to log scale
+      final keyPercentages = [0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 50.0, 100.0];
+
+      for (final percentage in keyPercentages) {
+        final linearValue = percentage / 100.0;
+        if (linearValue >= 0.001 && linearValue <= 1.0) {
+          final logValue = _transformToLog(linearValue);
+          labels.add(logValue);
+        }
+      }
+
+      return labels..sort();
+    }
+  }
+
   Widget _buildChart() {
     return LayoutBuilder(
       builder: (context, constraints) {
         // Fixed padding values that match the chart's internal padding
-        // Adjusted these values slightly to potentially fix hitbox offset
-        const double leftPadding = 44.0; // Was 40.0
-        const double rightPadding = 5.0; // Was 8.0
-        const double topPadding = 5.0; // Was 12.0
-        const double bottomPadding = 24.0; // Was 20.0
+        const double leftPadding = 82.0;
+        const double rightPadding = 2.0;
+        const double topPadding = 2.0;
+        const double bottomPadding = 24.0;
 
         // Calculate the actual plotting area dimensions
         final plotWidth = constraints.maxWidth - leftPadding - rightPadding;
@@ -539,14 +736,44 @@ class _FadeEditorState extends State<FadeEditor> {
           onTapDown: (details) {
             final localPosition = details.localPosition;
             // Only handle clicks within the plotting area
-            if (localPosition.dx >= leftPadding && 
+            if (localPosition.dx >= leftPadding &&
                 localPosition.dx <= constraints.maxWidth - rightPadding &&
                 localPosition.dy >= topPadding &&
                 localPosition.dy <= constraints.maxHeight - bottomPadding) {
-              
-              final x = ((localPosition.dx - leftPadding) / plotWidth * _maxDuration).clamp(0.0, _maxDuration);
-              final y = (1.0 - (localPosition.dy - topPadding) / plotHeight).clamp(0.0, 1.0);
-              _addPoint(x, y);
+
+              // First check if we're clicking near an existing point
+              double minDistance = double.infinity;
+              int? nearestIndex;
+
+              for (var i = 0; i < _points.length; i++) {
+                final point = _points[i];
+                // Convert point coordinates to pixels
+                final pointX = point.time / _maxDuration * plotWidth + leftPadding;
+                final transformedDuty = _transformToLog(point.duty);
+                final pointY = (1.0 - transformedDuty) * plotHeight + topPadding;
+
+                final dx = pointX - localPosition.dx;
+                final dy = pointY - localPosition.dy;
+                final distance = dx * dx + dy * dy;
+
+                if (distance < minDistance && distance < 900) { // 30 pixel radius
+                  minDistance = distance;
+                  nearestIndex = i;
+                }
+              }
+
+              if (nearestIndex != null) {
+                // Select the existing point
+                setState(() {
+                  _selectedPointIndex = nearestIndex;
+                  _updatePointValueControllers();
+                });
+              } else {
+                // Add a new point
+                final x = ((localPosition.dx - leftPadding) / plotWidth * _maxDuration).clamp(0.0, _maxDuration);
+                final y = (1.0 - (localPosition.dy - topPadding) / plotHeight).clamp(0.0, 1.0);
+                _addPoint(x, y);
+              }
             }
           },
           onPanStart: (details) {
@@ -566,7 +793,8 @@ class _FadeEditorState extends State<FadeEditor> {
               final point = _points[i];
               // Convert point coordinates to pixels
               final pointX = point.time / _maxDuration * plotWidth + leftPadding;
-              final pointY = (1.0 - point.duty) * plotHeight + topPadding;
+              final transformedDuty = _transformToLog(point.duty);
+              final pointY = (1.0 - transformedDuty) * plotHeight + topPadding;
               
               final dx = pointX - localPosition.dx;
               final dy = pointY - localPosition.dy;
@@ -580,6 +808,7 @@ class _FadeEditorState extends State<FadeEditor> {
             
             setState(() {
               _selectedPointIndex = nearestIndex;
+              _updatePointValueControllers();
             });
           },
           onPanUpdate: (details) {
@@ -607,7 +836,8 @@ class _FadeEditorState extends State<FadeEditor> {
               final point = _points[i];
               // Convert point coordinates to pixels
               final pointX = point.time / _maxDuration * plotWidth + leftPadding;
-              final pointY = (1.0 - point.duty) * plotHeight + topPadding;
+              final transformedDuty = _transformToLog(point.duty);
+              final pointY = (1.0 - transformedDuty) * plotHeight + topPadding;
 
               final dx = pointX - localPosition.dx;
               final dy = pointY - localPosition.dy;
@@ -633,7 +863,54 @@ class _FadeEditorState extends State<FadeEditor> {
                 maxX: _maxDuration,
                 minY: 0,
                 maxY: 1,
-                gridData: FlGridData(show: true),
+                gridData: _useLogScale ? FlGridData(
+                  show: true,
+                  drawVerticalLine: true,
+                  drawHorizontalLine: true,
+                  horizontalInterval: 0.01,
+                  checkToShowHorizontalLine: (value) {
+                    // Get the Y-axis labels that would be shown by fl_chart
+                    final yLabels = _getYAxisLabels();
+
+                    // Check if this value corresponds to a Y-axis label (major grid line)
+                    for (final labelValue in yLabels) {
+                      if ((value - labelValue).abs() < 0.001) {
+                        return true; // Show major grid line
+                      }
+
+                      // Check for minor grid lines (5 evenly spaced lines between each pair of labels)
+                      final nextLabel = yLabels.where((l) => l > labelValue).isNotEmpty
+                        ? yLabels.where((l) => l > labelValue).reduce((a, b) => a < b ? a : b)
+                        : null;
+
+                      if (nextLabel != null) {
+                        final step = (nextLabel - labelValue) / 6; // 5 minor lines + 1 gap
+                        for (int i = 1; i <= 5; i++) {
+                          final minorValue = labelValue + (step * i);
+                          if ((value - minorValue).abs() < 0.001) {
+                            return true; // Show minor grid line
+                          }
+                        }
+                      }
+                    }
+
+                    return false;
+                  },
+                  getDrawingHorizontalLine: (value) {
+                    // Determine if this is a major or minor line
+                    final yLabels = _getYAxisLabels();
+                    final isMajorLine = yLabels.any((labelValue) => (value - labelValue).abs() < 0.001);
+
+                    return FlLine(
+                      color: isMajorLine ? Colors.grey.shade600 : Colors.grey.shade400,
+                      strokeWidth: isMajorLine ? 1.0 : 0.5,
+                    );
+                  },
+                ) : FlGridData(
+                  show: true,
+                  drawVerticalLine: true,
+                  horizontalInterval: 0.1,
+                ),
                 borderData: FlBorderData(show: true),
                 titlesData: FlTitlesData(
                   rightTitles: const AxisTitles(
@@ -652,11 +929,25 @@ class _FadeEditorState extends State<FadeEditor> {
                     ),
                   ),
                   leftTitles: AxisTitles(
-                    axisNameWidget: const Text('Duty Cycle'),
+                    axisNameWidget: Text(_useLogScale ? 'Duty Cycle % (Log)' : 'Duty Cycle %'),
+                    axisNameSize: 32,
                     sideTitles: SideTitles(
                       showTitles: true,
+                      reservedSize: 48,
                       getTitlesWidget: (value, meta) {
-                        return Text(value.toStringAsFixed(1));
+                        if (_useLogScale) {
+                          // Convert back to linear value for display as percentage
+                          final linearValue = _transformFromLog(value);
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 4.0),
+                            child: Text('${linearValue < .13 ? (linearValue * 100).toStringAsFixed(1) : (linearValue * 100).toStringAsFixed(0)}%', textAlign: TextAlign.right),
+                          );
+                        } else {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 4.0),
+                            child: Text('${(value * 100).toInt()}%', textAlign: TextAlign.right),
+                          );
+                        }
                       },
                     ),
                   ),
@@ -664,9 +955,9 @@ class _FadeEditorState extends State<FadeEditor> {
                 lineBarsData: [
                   LineChartBarData(
                     spots: _points
-                        .map((p) => FlSpot(p.time, p.duty))
+                        .map((p) => FlSpot(p.time, _transformToLog(p.duty)))
                         .toList(),
-                    isCurved: false,
+                    isCurved: _curveType == CurveType.bezier,
                     dotData: FlDotData(
                       show: true,
                       getDotPainter: (spot, percent, bar, index) {
