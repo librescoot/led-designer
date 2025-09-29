@@ -1,70 +1,7 @@
 {
     "fades": [
       {
-        "name": "fade01",
-        "displayName": "blink",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.0
-          },
-          {
-            "time": 300.0,
-            "duty": 0.75
-          },
-          {
-            "time": 350.0,
-            "duty": 0.75
-          },
-          {
-            "time": 650.0,
-            "duty": 0.0
-          },
-          {
-            "time": 800.0,
-            "duty": 0.0
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 0,
-        "filename": "fade0"
-      },
-      {
-        "name": "fade02",
-        "displayName": "linear-on",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.0
-          },
-          {
-            "time": 800.0,
-            "duty": 0.75
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 1,
-        "filename": "fade1"
-      },
-      {
-        "name": "fade03",
-        "displayName": "linear-off",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.75
-          },
-          {
-            "time": 800.0,
-            "duty": 0.0
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 2,
-        "filename": "fade2"
-      },
-      {
-        "name": "fade04",
+        "name": "fade00",
         "displayName": "smooth-on",
         "points": [
           {
@@ -81,45 +18,11 @@
           }
         ],
         "sampleRate": 250,
-        "fadeIndex": 3,
-        "filename": "fade3"
+        "fadeIndex": 0,
+        "filename": "fade0"
       },
       {
-        "name": "fade05",
-        "displayName": "linear-full-to-half",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.75
-          },
-          {
-            "time": 100.0,
-            "duty": 0.15
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 4,
-        "filename": "fade4"
-      },
-      {
-        "name": "fade06",
-        "displayName": "linear-half-to-full",
-        "points": [
-          {
-            "time": 0.0,
-            "duty": 0.15
-          },
-          {
-            "time": 100.0,
-            "duty": 0.75
-          }
-        ],
-        "sampleRate": 250,
-        "fadeIndex": 5,
-        "filename": "fade5"
-      },
-      {
-        "name": "fade07",
+        "name": "fade01",
         "displayName": "smooth-off",
         "points": [
           {
@@ -144,36 +47,45 @@
           }
         ],
         "sampleRate": 250,
-        "fadeIndex": 6,
-        "filename": "fade6"
+        "fadeIndex": 1,
+        "filename": "fade1"
       },
       {
-        "name": "fade08",
-        "displayName": "smooth-half-to-off",
+        "name": "fade02",
+        "displayName": "linear-on",
         "points": [
           {
             "time": 0.0,
-            "duty": 0.15
+            "duty": 0.0
           },
           {
-            "time": 1285.0,
-            "duty": 0.1
+            "time": 800.0,
+            "duty": 0.75
+          }
+        ],
+        "sampleRate": 250,
+        "fadeIndex": 2,
+        "filename": "fade2"
+      },
+      {
+        "name": "fade03",
+        "displayName": "linear-off",
+        "points": [
+          {
+            "time": 0.0,
+            "duty": 0.75
           },
           {
-            "time": 1755.0,
-            "duty": 0.05
-          },
-          {
-            "time": 2000.0,
+            "time": 800.0,
             "duty": 0.0
           }
         ],
         "sampleRate": 250,
-        "fadeIndex": 7,
-        "filename": "fade7"
+        "fadeIndex": 3,
+        "filename": "fade3"
       },
       {
-        "name": "fade09",
+        "name": "fade04",
         "displayName": "smooth-off-to-half",
         "points": [
           {
@@ -198,11 +110,28 @@
           }
         ],
         "sampleRate": 250,
-        "fadeIndex": 8,
-        "filename": "fade8"
+        "fadeIndex": 4,
+        "filename": "fade4"
       },
       {
-        "name": "fade10",
+        "name": "fade05",
+        "displayName": "linear-half-to-full",
+        "points": [
+          {
+            "time": 0.0,
+            "duty": 0.15
+          },
+          {
+            "time": 100.0,
+            "duty": 0.75
+          }
+        ],
+        "sampleRate": 250,
+        "fadeIndex": 5,
+        "filename": "fade5"
+      },
+      {
+        "name": "fade06",
         "displayName": "linear-on-full",
         "points": [
           {
@@ -215,11 +144,28 @@
           }
         ],
         "sampleRate": 250,
-        "fadeIndex": 9,
-        "filename": "fade9"
+        "fadeIndex": 6,
+        "filename": "fade6"
       },
       {
-        "name": "fade11",
+        "name": "fade07",
+        "displayName": "linear-full-to-half",
+        "points": [
+          {
+            "time": 0.0,
+            "duty": 0.75
+          },
+          {
+            "time": 100.0,
+            "duty": 0.15
+          }
+        ],
+        "sampleRate": 250,
+        "fadeIndex": 7,
+        "filename": "fade7"
+      },
+      {
+        "name": "fade08",
         "displayName": "linear-off-full",
         "points": [
           {
@@ -228,6 +174,244 @@
           },
           {
             "time": 2000.0,
+            "duty": 0.0
+          }
+        ],
+        "sampleRate": 250,
+        "fadeIndex": 8,
+        "filename": "fade8"
+      },
+      {
+        "name": "fade09",
+        "displayName": "smooth-half-to-off",
+        "points": [
+          {
+            "time": 0.0,
+            "duty": 0.15
+          },
+          {
+            "time": 1285.0,
+            "duty": 0.1
+          },
+          {
+            "time": 1755.0,
+            "duty": 0.05
+          },
+          {
+            "time": 2000.0,
+            "duty": 0.0
+          }
+        ],
+        "sampleRate": 250,
+        "fadeIndex": 9,
+        "filename": "fade9"
+      },
+      {
+        "name": "fade10",
+        "displayName": "blink",
+        "points": [
+          {
+            "time": 0.0,
+            "duty": 0.0
+          },
+          {
+            "time": 10.0,
+            "duty": 0.021952
+          },
+          {
+            "time": 20.0,
+            "duty": 0.060199
+          },
+          {
+            "time": 30.0,
+            "duty": 0.107154
+          },
+          {
+            "time": 40.0,
+            "duty": 0.159737
+          },
+          {
+            "time": 50.0,
+            "duty": 0.216
+          },
+          {
+            "time": 60.0,
+            "duty": 0.274528
+          },
+          {
+            "time": 70.0,
+            "duty": 0.334218
+          },
+          {
+            "time": 80.0,
+            "duty": 0.394175
+          },
+          {
+            "time": 90.0,
+            "duty": 0.453649
+          },
+          {
+            "time": 100.0,
+            "duty": 0.512
+          },
+          {
+            "time": 110.0,
+            "duty": 0.568677
+          },
+          {
+            "time": 120.0,
+            "duty": 0.6232
+          },
+          {
+            "time": 130.0,
+            "duty": 0.675146
+          },
+          {
+            "time": 140.0,
+            "duty": 0.724145
+          },
+          {
+            "time": 150.0,
+            "duty": 0.769873
+          },
+          {
+            "time": 160.0,
+            "duty": 0.812042
+          },
+          {
+            "time": 170.0,
+            "duty": 0.850402
+          },
+          {
+            "time": 180.0,
+            "duty": 0.884736
+          },
+          {
+            "time": 190.0,
+            "duty": 0.914856
+          },
+          {
+            "time": 200.0,
+            "duty": 0.940604
+          },
+          {
+            "time": 210.0,
+            "duty": 0.961847
+          },
+          {
+            "time": 220.0,
+            "duty": 0.978478
+          },
+          {
+            "time": 230.0,
+            "duty": 0.990415
+          },
+          {
+            "time": 240.0,
+            "duty": 0.997601
+          },
+          {
+            "time": 250.0,
+            "duty": 1.0
+          },
+          {
+            "time": 260.0,
+            "duty": 0.997601
+          },
+          {
+            "time": 270.0,
+            "duty": 0.990415
+          },
+          {
+            "time": 280.0,
+            "duty": 0.978478
+          },
+          {
+            "time": 290.0,
+            "duty": 0.961847
+          },
+          {
+            "time": 300.0,
+            "duty": 0.940604
+          },
+          {
+            "time": 310.0,
+            "duty": 0.914856
+          },
+          {
+            "time": 320.0,
+            "duty": 0.884736
+          },
+          {
+            "time": 330.0,
+            "duty": 0.850402
+          },
+          {
+            "time": 340.0,
+            "duty": 0.812042
+          },
+          {
+            "time": 350.0,
+            "duty": 0.769873
+          },
+          {
+            "time": 360.0,
+            "duty": 0.724145
+          },
+          {
+            "time": 370.0,
+            "duty": 0.675146
+          },
+          {
+            "time": 380.0,
+            "duty": 0.6232
+          },
+          {
+            "time": 390.0,
+            "duty": 0.568677
+          },
+          {
+            "time": 400.0,
+            "duty": 0.512
+          },
+          {
+            "time": 410.0,
+            "duty": 0.453649
+          },
+          {
+            "time": 420.0,
+            "duty": 0.394175
+          },
+          {
+            "time": 430.0,
+            "duty": 0.334218
+          },
+          {
+            "time": 440.0,
+            "duty": 0.274528
+          },
+          {
+            "time": 450.0,
+            "duty": 0.216
+          },
+          {
+            "time": 460.0,
+            "duty": 0.159737
+          },
+          {
+            "time": 470.0,
+            "duty": 0.107154
+          },
+          {
+            "time": 480.0,
+            "duty": 0.060199
+          },
+          {
+            "time": 490.0,
+            "duty": 0.021952
+          },
+          {
+            "time": 500.0,
             "duty": 0.0
           }
         ],
@@ -291,17 +475,17 @@
           {
             "ledIndex": 1,
             "type": "fade",
-            "value": 3
+            "value": 0
           },
           {
             "ledIndex": 2,
             "type": "fade",
-            "value": 8
+            "value": 4
           },
           {
             "ledIndex": 5,
             "type": "fade",
-            "value": 3
+            "value": 0
           }
         ],
         "filename": "cue1"
@@ -313,17 +497,17 @@
           {
             "ledIndex": 1,
             "type": "fade",
-            "value": 3
+            "value": 0
           },
           {
             "ledIndex": 5,
             "type": "fade",
-            "value": 3
+            "value": 0
           },
           {
             "ledIndex": 2,
             "type": "fade",
-            "value": 1
+            "value": 2
           }
         ],
         "filename": "cue2"
@@ -335,7 +519,7 @@
           {
             "ledIndex": 0,
             "type": "fade",
-            "value": 9
+            "value": 6
           }
         ],
         "filename": "cue3"
@@ -359,7 +543,7 @@
           {
             "ledIndex": 2,
             "type": "fade",
-            "value": 4
+            "value": 7
           }
         ],
         "filename": "cue5"
@@ -371,7 +555,7 @@
           {
             "ledIndex": 0,
             "type": "fade",
-            "value": 10
+            "value": 8
           }
         ],
         "filename": "cue6"
@@ -403,17 +587,17 @@
           {
             "ledIndex": 1,
             "type": "fade",
-            "value": 6
+            "value": 1
           },
           {
             "ledIndex": 2,
             "type": "fade",
-            "value": 7
+            "value": 9
           },
           {
             "ledIndex": 5,
             "type": "fade",
-            "value": 6
+            "value": 1
           }
         ],
         "filename": "cue7"
@@ -445,17 +629,17 @@
           {
             "ledIndex": 1,
             "type": "fade",
-            "value": 6
+            "value": 1
           },
           {
             "ledIndex": 5,
             "type": "fade",
-            "value": 6
+            "value": 1
           },
           {
             "ledIndex": 2,
             "type": "fade",
-            "value": 6
+            "value": 1
           }
         ],
         "filename": "cue8"
@@ -494,12 +678,12 @@
           {
             "ledIndex": 3,
             "type": "fade",
-            "value": 0
+            "value": 10
           },
           {
             "ledIndex": 6,
             "type": "fade",
-            "value": 0
+            "value": 10
           }
         ],
         "filename": "cue10"
@@ -511,12 +695,12 @@
           {
             "ledIndex": 4,
             "type": "fade",
-            "value": 0
+            "value": 10
           },
           {
             "ledIndex": 7,
             "type": "fade",
-            "value": 0
+            "value": 10
           }
         ],
         "filename": "cue11"
@@ -528,22 +712,22 @@
           {
             "ledIndex": 3,
             "type": "fade",
-            "value": 0
+            "value": 10
           },
           {
             "ledIndex": 4,
             "type": "fade",
-            "value": 0
+            "value": 10
           },
           {
             "ledIndex": 6,
             "type": "fade",
-            "value": 0
+            "value": 10
           },
           {
             "ledIndex": 7,
             "type": "fade",
-            "value": 0
+            "value": 10
           }
         ],
         "filename": "cue12"
