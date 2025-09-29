@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' show max;
@@ -263,6 +264,30 @@ class _FadeEditorState extends State<FadeEditor> {
     });
   }
 
+  void _showPointContextMenu(BuildContext context, Offset globalPosition, int pointIndex) {
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        globalPosition.dx,
+        globalPosition.dy,
+        globalPosition.dx,
+        globalPosition.dy,
+      ),
+      items: [
+        PopupMenuItem(
+          child: const Row(
+            children: [
+              Icon(Icons.delete, size: 18),
+              SizedBox(width: 8),
+              Text('Delete Point'),
+            ],
+          ),
+          onTap: () => _removePoint(pointIndex),
+        ),
+      ],
+    );
+  }
+
   void _resetEditor() {
     setState(() {
       _editingFade = null;
@@ -497,8 +522,20 @@ class _FadeEditorState extends State<FadeEditor> {
         final plotWidth = constraints.maxWidth - leftPadding - rightPadding;
         final plotHeight = constraints.maxHeight - topPadding - bottomPadding;
 
-        return GestureDetector(
-          behavior: HitTestBehavior.translucent,
+        return Focus(
+          autofocus: true,
+          onKeyEvent: (node, event) {
+            if (event is KeyDownEvent && _selectedPointIndex != null) {
+              if (event.logicalKey == LogicalKeyboardKey.delete ||
+                  event.logicalKey == LogicalKeyboardKey.backspace) {
+                _removePoint(_selectedPointIndex!);
+                return KeyEventResult.handled;
+              }
+            }
+            return KeyEventResult.ignored;
+          },
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
           onTapDown: (details) {
             final localPosition = details.localPosition;
             // Only handle clicks within the plotting area
@@ -521,9 +558,6 @@ class _FadeEditorState extends State<FadeEditor> {
               return;
             }
 
-            final x = ((localPosition.dx - leftPadding) / plotWidth * _maxDuration).clamp(0.0, _maxDuration);
-            final y = (1.0 - (localPosition.dy - topPadding) / plotHeight).clamp(0.0, 1.0);
-            
             // Find the nearest point
             double minDistance = double.infinity;
             int? nearestIndex;
@@ -554,6 +588,42 @@ class _FadeEditorState extends State<FadeEditor> {
               final x = ((localPosition.dx - leftPadding) / plotWidth * _maxDuration).clamp(0.0, _maxDuration);
               final y = (1.0 - (localPosition.dy - topPadding) / plotHeight).clamp(0.0, 1.0);
               _updatePoint(_selectedPointIndex!, x, y);
+            }
+          },
+          onSecondaryTapDown: (details) {
+            final localPosition = details.localPosition;
+            if (localPosition.dx < leftPadding ||
+                localPosition.dx > constraints.maxWidth - rightPadding ||
+                localPosition.dy < topPadding ||
+                localPosition.dy > constraints.maxHeight - bottomPadding) {
+              return;
+            }
+
+            // Find the nearest point for right-click deletion
+            double minDistance = double.infinity;
+            int? nearestIndex;
+
+            for (var i = 0; i < _points.length; i++) {
+              final point = _points[i];
+              // Convert point coordinates to pixels
+              final pointX = point.time / _maxDuration * plotWidth + leftPadding;
+              final pointY = (1.0 - point.duty) * plotHeight + topPadding;
+
+              final dx = pointX - localPosition.dx;
+              final dy = pointY - localPosition.dy;
+              final distance = dx * dx + dy * dy;
+
+              if (distance < 900) { // 30 pixel radius
+                if (distance < minDistance) {
+                  minDistance = distance;
+                  nearestIndex = i;
+                }
+              }
+            }
+
+            if (nearestIndex != null) {
+              // Show context menu
+              _showPointContextMenu(context, details.globalPosition, nearestIndex);
             }
           },
           child: SizedBox.expand(
@@ -615,6 +685,7 @@ class _FadeEditorState extends State<FadeEditor> {
               ),
             ),
           ),
+        ),
         );
       },
     );
