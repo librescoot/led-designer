@@ -236,12 +236,22 @@ class _FadeEditorState extends State<FadeEditor> {
   void _updatePointValueControllers() {
     if (_selectedPointIndex != null && _selectedPointIndex! < _points.length) {
       final point = _points[_selectedPointIndex!];
-      _pointXController.text = point.time.toStringAsFixed(1);
-      _pointYController.text = (point.duty * 100).toStringAsFixed(1);
+      _pointXController.text = point.time.toStringAsFixed(0); // Show as whole ms since quantized to 10ms
+      _pointYController.text = (point.duty * 100).toStringAsFixed(1); // Show as 0.1% precision
     } else {
       _pointXController.clear();
       _pointYController.clear();
     }
+  }
+
+  /// Quantize time to 10ms steps
+  double _quantizeTime(double time) {
+    return (time / 10.0).round() * 10.0;
+  }
+
+  /// Quantize duty cycle to 0.1% steps (0.001 in decimal)
+  double _quantizeDuty(double duty) {
+    return (duty * 1000.0).round() / 1000.0;
   }
 
   void _handlePointValueUpdate() {
@@ -251,28 +261,37 @@ class _FadeEditorState extends State<FadeEditor> {
     final newY = double.tryParse(_pointYController.text);
 
     if (newX != null && newY != null && newX >= 0 && newX <= _maxDuration && newY >= 0 && newY <= 100) {
+      // Quantize values: time to 10ms steps, duty to 0.1% steps
+      final quantizedX = _quantizeTime(newX);
+      final quantizedY = _quantizeDuty(newY / 100.0);
+
       setState(() {
-        _points[_selectedPointIndex!] = FadePoint(newX, newY / 100.0);
+        _points[_selectedPointIndex!] = FadePoint(quantizedX, quantizedY);
         _points.sort((a, b) => a.time.compareTo(b.time));
         // Update selected index after sorting
-        _selectedPointIndex = _points.indexWhere((p) => p.time == newX && p.duty == (newY / 100.0));
+        _selectedPointIndex = _points.indexWhere((p) => p.time == quantizedX && p.duty == quantizedY);
+        _updatePointValueControllers(); // Update controllers with quantized values
       });
     }
   }
 
   void _addPoint(double x, double y) {
-    // Don't add a point if we're too close to an existing one
+    // Convert y back from log scale if needed
+    final actualY = _transformFromLog(y);
+
+    // Quantize values: time to 10ms steps, duty to 0.1% steps
+    final quantizedX = _quantizeTime(x.clamp(0, _maxDuration));
+    final quantizedY = _quantizeDuty(actualY.clamp(0, 1));
+
+    // Don't add a point if we're too close to an existing one (check quantized position)
     for (var point in _points) {
-      if ((point.time - x).abs() < _maxDuration * 0.01) {  // Scale minimum distance with duration
+      if ((point.time - quantizedX).abs() < 15) {  // Within 15ms (1.5 quantization steps)
         return;
       }
     }
 
-    // Convert y back from log scale if needed
-    final actualY = _transformFromLog(y);
-
     setState(() {
-      _points.add(FadePoint(x.clamp(0, _maxDuration), actualY.clamp(0, 1)));
+      _points.add(FadePoint(quantizedX, quantizedY));
       _points.sort((a, b) => a.time.compareTo(b.time));
     });
   }
@@ -281,12 +300,16 @@ class _FadeEditorState extends State<FadeEditor> {
     // Convert y back from log scale if needed
     final actualY = _transformFromLog(y);
 
+    // Quantize values: time to 10ms steps, duty to 0.1% steps
+    final quantizedX = _quantizeTime(x.clamp(0, _maxDuration));
+    final quantizedY = _quantizeDuty(actualY.clamp(0, 1));
+
     setState(() {
-      _points[index] = FadePoint(x.clamp(0, _maxDuration), actualY.clamp(0, 1));
+      _points[index] = FadePoint(quantizedX, quantizedY);
       _points.sort((a, b) => a.time.compareTo(b.time));
       // Update selected point index after sorting
       if (_selectedPointIndex == index) {
-        _selectedPointIndex = _points.indexWhere((p) => p.time == x && p.duty == actualY);
+        _selectedPointIndex = _points.indexWhere((p) => p.time == quantizedX && p.duty == quantizedY);
       }
       _updatePointValueControllers();
     });
@@ -588,7 +611,7 @@ class _FadeEditorState extends State<FadeEditor> {
                                 child: TextFormField(
                                   controller: _pointXController,
                                   decoration: const InputDecoration(
-                                    labelText: 'Time (ms)',
+                                    labelText: 'Time (10ms)',
                                     isDense: true,
                                   ),
                                   keyboardType: TextInputType.number,
@@ -608,7 +631,7 @@ class _FadeEditorState extends State<FadeEditor> {
                                 child: TextFormField(
                                   controller: _pointYController,
                                   decoration: const InputDecoration(
-                                    labelText: 'Duty %',
+                                    labelText: 'Duty (0.1%)',
                                     isDense: true,
                                   ),
                                   keyboardType: TextInputType.number,
