@@ -596,9 +596,7 @@ class _FadeEditorState extends State<FadeEditor> {
                     spots: _points
                         .map((p) => FlSpot(p.time, p.duty))
                         .toList(),
-                    isCurved: true,
-                    curveSmoothness: 0.3,
-                    preventCurveOverShooting: true,
+                    isCurved: false,
                     dotData: FlDotData(
                       show: true,
                       getDotPainter: (spot, percent, bar, index) {
